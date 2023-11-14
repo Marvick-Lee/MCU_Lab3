@@ -17,7 +17,6 @@ void fsm_automatic_run(){
 	switch (status){
 		case INIT:
 			//TODO
-
 			initLED();
 			led_index = 0;
 			CT1 = 0;
@@ -30,6 +29,12 @@ void fsm_automatic_run(){
 			setTimer3(10);
 			break;
 
+		case INIT_AUTO:
+			status = R1_G2;
+			setTimer1(1000 * GT);
+			setTimer2(10);
+			setTimer3(10);
+			break;
 		case R1_G2:
 			//TODO
 			onR1(); onG2();

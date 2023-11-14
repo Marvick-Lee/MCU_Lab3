@@ -75,37 +75,37 @@ void update7SEG(int index){
 void updateBufferNormal(int status){
 	switch(status){
 	case R1_G2:
-		led_buffer[0] = RT - CT1;
-		led_buffer[1] = GT - CT1;
-		led_buffer[2] = led_buffer[0];
-		led_buffer[3] = led_buffer[1];
+		led_buffer[0] = (RT - CT1)/10;
+		led_buffer[1] = (RT - CT1)%10;
+		led_buffer[2] = (GT - CT1)/10;
+		led_buffer[3] = (GT - CT1)%10;
 		CT1++;
 		break;
 
 	case R1_Y2:
-		led_buffer[0] = RT - CT1;
-		led_buffer[1] = YT - CT2;
-		led_buffer[2] = led_buffer[0];
-		led_buffer[3] = led_buffer[1];
+		led_buffer[0] = (RT - CT1)/10;
+		led_buffer[1] = (RT - CT1)%10;
+		led_buffer[2] = (YT - CT2)/10;
+		led_buffer[3] = (YT - CT2)%10;
 		CT1++; CT2 ++;
 		break;
 
 	case G1_R2:
-		led_buffer[0] = GT - CT3;
-		led_buffer[1] = RT - CT3;
-		led_buffer[2] = led_buffer[0];
-		led_buffer[3] = led_buffer[1];
+		led_buffer[0] = (GT - CT3)/10;
+		led_buffer[1] = (GT - CT3)%10;
+		led_buffer[2] = (RT - CT3)/10;
+		led_buffer[3] = (RT - CT3)%10;
 		CT3 ++;
 		break;
 
 	case Y1_R2:
-		led_buffer[1] = RT - CT3;
-		led_buffer[0] = YT - CT4;
-		led_buffer[3] = led_buffer[1];
-		led_buffer[2] = led_buffer[0];
+		led_buffer[0] = (YT - CT4)/10;
+		led_buffer[1] = (YT - CT4)%10;
+		led_buffer[2] = (RT - CT3)/10;
+		led_buffer[3] = (RT - CT3)%10;
 		CT3 ++; CT4 ++;
 
-		if (led_buffer[0] <= 1) {
+		if (led_buffer[1] <= 1) {
 			CT1 = 0; CT2 = 0; CT3 = 0; CT4 = 0;
 		}
 		break;

@@ -6,6 +6,7 @@
  */
 
 #include "fsm_manual.h"
+#include "global.h"
 
 void fsm_manual_run(){
 	switch (status){
@@ -16,7 +17,7 @@ void fsm_manual_run(){
 			onR1();
 			onR2();
 			updateBufferMANRED();
-			update7SEG(led_index);
+			update7SEG(led_index); //******
 			setTimer1(10);
 			setTimer2(10);
 			setTimer3(500); // 2Hz
@@ -33,24 +34,24 @@ void fsm_manual_run(){
 				setTimer3(500);
 			}
 			if (timer4_flag == 1){ //blinking
-				HAL_GPIO_TogglePin(R1_GPIO_Port, R1_Pin);
-				HAL_GPIO_TogglePin(R2_GPIO_Port, R2_Pin);
+				HAL_GPIO_TogglePin(R1_GPIO_Port, R1_Pin);// ******
+				HAL_GPIO_TogglePin(R2_GPIO_Port, R2_Pin);// *******
 				setTimer4(500);
 			}
 			if(timer5_flag == 1){ // buffer 4SEG
-				update7SEG(led_index++);
-				if (led_index > 3) led_index = 0;
+				update7SEG(led_index++); //*********
+				if (led_index > 3) led_index = 0; //****** gọi trong ngắt timer
 				setTimer5(100);
 			}
 
 			if (isButton1Pressed() == 1) status = INIT_MAN_YLW;
 			if (isButton2Pressed() == 1){
-				if (RT >= 99) RT = GT + 1; else RT++;
+				if (RT < 99) RT++;
 				status = MAN_RED;
 			}
 			if (isButton3Pressed() == 1){
-				YT = RT - YT;
-				status = R1_G2;
+				if(RT > YT) GT = RT - YT; else GT = YT - RT;
+				status = INIT_AUTO;
 			}
 			break;
 
@@ -91,11 +92,11 @@ void fsm_manual_run(){
 			if (isButton1Pressed() == 1) status = INIT_MAN_GRN;
 			if (isButton2Pressed() == 1){
 				status = MAN_YLW;
-				if (YT < RT) YT++;
+				if (YT < 99) YT++;
 			}
 			if (isButton3Pressed() == 1){
-				GT = RT - YT;
-				status = R1_G2;
+				if(YT > RT) GT = YT - RT; else GT = RT - YT;
+				status = INIT_AUTO;
 			}
 			break;
 
@@ -135,12 +136,12 @@ void fsm_manual_run(){
 
 			if (isButton1Pressed() == 1) status = INIT_MAN_RED;
 			if (isButton2Pressed() == 1){
-				if (GT < RT) GT++;
+				if (GT < 99) GT++;
 				status = MAN_GRN;
 			}
 			if (isButton3Pressed() == 1){
-				YT = RT - GT;
-				status = R1_G2;
+				if(GT > RT) YT = GT - RT; else YT = RT - GT;
+				status = INIT_AUTO;
 			}
 			break;
 

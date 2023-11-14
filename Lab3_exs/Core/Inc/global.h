@@ -22,15 +22,13 @@
 #define G1_R2 		3
 #define Y1_R2		4
 
+#define INIT_AUTO		010
 #define MAN_RED			12
 #define INIT_MAN_RED 	120
-#define MAN_RED_ADD		121
 #define MAN_GRN			13
 #define INIT_MAN_GRN	130
-#define MAN_GRN_ADD		131
 #define MAN_YLW			14
 #define INIT_MAN_YLW	140
-#define MAN_YLW_ADD		141
 
 extern int status;
 
